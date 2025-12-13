@@ -6,24 +6,21 @@ competition Competition;
 brain Brain;
 controller Controller;
 
-//setup auton switch variable thingy type beat
-int obnoxiouslongvariableusedfortheautonswitcher = 0;
-
 // define motors
-motor leftFront = motor(PORT5, ratio18_1, true);
-motor leftMiddle = motor(PORT18, ratio18_1, false);
+motor leftFront = motor(PORT18, ratio18_1, true);
+motor leftMiddle = motor(PORT15, ratio18_1, false);
 motor leftBack = motor(PORT19, ratio18_1, true);
 
 
-motor rightFront = motor(PORT9, ratio18_1, false);
-motor rightMiddle = motor(PORT7, ratio18_1, true);
-motor rightBack = motor(PORT3, ratio18_1, false);
+motor rightFront = motor(PORT14, ratio18_1, false);
+motor rightMiddle = motor(POR16, ratio18_1, true);
+motor rightBack = motor(PORT11, ratio18_1, false);
 
 motor_group left_side = motor_group(leftFront, leftMiddle, leftBack);
 motor_group right_side = motor_group(rightFront, rightMiddle, rightBack);
 
 motor leftIntake = motor(PORT20, ratio18_1, true);
-motor rightIntake = motor(PORT10, ratio18_1, true);
+motor rightIntake = motor(PORT2, ratio18_1, true);
 
 drivetrain Drivetrain = drivetrain(left_side, right_side, 10.21, 12.5, 14, inches, 4/5);
 
@@ -88,13 +85,9 @@ void usercontrol(void) {
       rightIntake.spin(fwd, 24, volt);
     }
     //
-     else if(Controller.ButtonL1.pressing()){ 
-      rightIntake.spin(fwd, 24, volt);
-    }
-    //
-    else if(Controller.ButtonL2.pressing()){ 
-      rightIntake.spin(fwd, 24, volt);
-      leftIntake.spin(fwd, 24, volt);
+     else if(Controller.ButtonR2.pressing()({
+       leftIntake.spin(fwd, 24, volt);
+       rightIntake.spin(reverse, 24, volt);
     }
     //stop intake if no button is being pressed
     else{
@@ -123,23 +116,7 @@ void Wing(){
       wing.set(true);
       }
     }
-/*void switchtheautonomoustooneofthreepresetautonomousprograms(){
-  obnoxiouslongvariableusedfortheautonswitcher++;
-  if (obnoxiouslongvariableusedfortheautonswitcher > 3){
-    obnoxiouslongvariableusedfortheautonswitcher = 0;
-    Controller.Screen.clearScreen();
-    Controller.Screen.print("AUTON");
-    while(true)
-    {
-      Controller.Screen.setCursor(1,1);
-      Controller.Screen.print(obnoxiouslongvariableusedfortheautonswitcher);
-    }
-  }
-  
-    
-
 }
-*/
 //
 // Main will set up the competition functions and callbacks.
 //
@@ -149,7 +126,6 @@ int main() {
   Competition.drivercontrol(usercontrol);
   Controller.ButtonR2.pressed(Unload);
   Controller.ButtonX.pressed(Wing);
-  //Controller.ButtonUp.pressed(switchtheautonomoustooneofthreepresetautonomousprograms);
   // Run the pre-autonomous function.
   pre_auton();
 
